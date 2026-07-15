@@ -4,51 +4,106 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🎯 韓文初級 26週關卡挑戰表</title>
-    <style>
+   <style>
+        /* 1. 設定 body 為 Flexbox 容器，讓裡面的 container 完美置中 */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f7f6;
             color: #333;
             margin: 0;
             padding: 16px;
+            
+            display: flex;
+            justify-content: center;  /* 水平置中 */
+            align-items: flex-start;  /* 垂直方向從頂部開始（因為表格很長，避免頂部被切掉） */
+            min-height: 100vh;        /* 確保高度至少跟螢幕一樣高 */
+            box-sizing: border-box;
         }
+
+        /* 2. 外框容器設定 */
         .container {
-            max-width: 900px;
-            margin: 0 auto;
+            width: 100%;             /* 在小螢幕上自動滿版 */
+            max-width: 900px;        /* 最大寬度限制 */
             background: white;
-            padding: 20px; /* 手機上縮小 padding */
+            padding: 20px;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin: 20px 0;          /* 上下留下一點點呼吸空間，左右靠 Flexbox 自動置中 */
+            box-sizing: border-box;
         }
+
         h1 {
             text-align: center;
             color: #2c3e50;
-            margin-bottom: 10px;
-            
-            /* -- 重點修改開始 -- */
-            /* 基礎縮小一點點，設定為大約 1.8倍的預設字體大小 */
-            font-size: 1.8rem;
-            
-            /* 如果你還是覺得太大，可以用這一行（在小螢幕上使用 1.4rem，在普通螢幕上使用 1.8rem）*/
-            /* 如果要用這個，要把上面的那行 font-size: 1.8rem 註解掉或是刪掉 */
-            /* font-size: 1.4rem; */
-            
-            /* 強制讓文字在很小的螢幕上縮放 */
-            font-size: clamp(1.4rem, 5vw + 1rem, 1.8rem);
-            /* 這行公式的意思是：
-               1.4rem：字體最小絕對不會小於 1.4rem (適合超級老小手機)
-               5vw + 1rem：根據手機寬度 (5% 的視窗寬度 + 1rem) 自動縮放
-               1.8rem：字體最大不會大於 1.8rem (在大手機或電腦上) */
-
-            /* 防止文字換行 */
+            margin-bottom: 20px;
+            font-size: clamp(1.4rem, 5vw + 1rem, 1.8rem); /* 縮放字體 */
             white-space: nowrap;
-            /* 重點修改結束 -- */
         }
 
-        /* 為了配合手機版，建議你也同步加入以下 media query，優化 container */
+        /* 3. 確保表格在容器內也是置中的 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0 auto;          /* 表格本身也在 container 內置中 */
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;      /* 文字與核取方塊全部水平置中 */
+            vertical-align: middle;  /* 垂直置中 */
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: #f9f9fb;
+        }
+
+        /* 進度條樣式 */
+        .progress-container {
+            width: 80px;             /* 稍微縮小一點點，更適合手機排版 */
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        .progress-bar {
+            height: 12px;
+            width: 0%;
+            background-color: #00b894;
+            transition: width 0.3s ease;
+        }
+        .badge {
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+            white-space: nowrap;     /* 防止狀態文字換行 */
+        }
+        .badge-locked { background: #ffeaa7; color: #d63031; }
+        .badge-done { background: #55efc4; color: #00b894; }
+        
+        input[type="checkbox"] {
+            transform: scale(1.3);
+            cursor: pointer;
+        }
+
+        /* 針對平板與電腦的優化 */
         @media (min-width: 600px) {
             .container {
                 padding: 30px;
+                margin: 40px 0;      /* 電腦版上下留多一點空間，比例更好看 */
+            }
+            .progress-container {
+                width: 100px;        /* 電腦版進度條可以寬一點 */
             }
         }
     </style>
