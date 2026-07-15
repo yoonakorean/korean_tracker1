@@ -4,53 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🎯 韓文初級 26週關卡挑戰表</title>
-   <style>
-        /* 1. 設定 body 為 Flexbox 容器，讓裡面的 container 完美置中 */
+<style>
+        /* 1. 回歸原本第一版的基礎 Body 設定，完全不影響原版型 */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f7f6;
             color: #333;
             margin: 0;
             padding: 16px;
-            
-            display: flex;
-            justify-content: center;  /* 水平置中 */
-            align-items: flex-start;  /* 垂直方向從頂部開始（因為表格很長，避免頂部被切掉） */
-            min-height: 100vh;        /* 確保高度至少跟螢幕一樣高 */
-            box-sizing: border-box;
         }
 
-        /* 2. 外框容器設定 */
+        /* 2. 原本的白色外框，保持原樣 */
         .container {
-            width: 100%;             /* 在小螢幕上自動滿版 */
-            max-width: 900px;        /* 最大寬度限制 */
+            max-width: 900px;
+            margin: 0 auto;         /* 讓整個白色外框在網頁中左右置中 */
             background: white;
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            margin: 20px 0;          /* 上下留下一點點呼吸空間，左右靠 Flexbox 自動置中 */
             box-sizing: border-box;
         }
 
+        /* 3. 標題：維持你剛才改好、可自動縮放且不換行的設定 */
         h1 {
             text-align: center;
             color: #2c3e50;
-            margin-bottom: 20px;
-            font-size: clamp(1.4rem, 5vw + 1rem, 1.8rem); /* 縮放字體 */
+            margin-bottom: 10px;
+            font-size: clamp(1.4rem, 5vw + 1rem, 1.8rem);
             white-space: nowrap;
         }
 
-        /* 3. 確保表格在容器內也是置中的 */
+        /* 4. 今日目標看板：維持原樣不動 */
+        .today-banner {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+        }
+
+        /* 5. 關鍵修改：只讓「關卡表格一整大欄」在白色外框內置中並自動適應寬度 */
         table {
             width: 100%;
+            max-width: 100%;
             border-collapse: collapse;
-            margin: 0 auto;          /* 表格本身也在 container 內置中 */
+            margin: 0 auto;          /* 讓整張表格在大框框內水平置中 */
         }
 
         th, td {
             padding: 12px;
-            text-align: center;      /* 文字與核取方塊全部水平置中 */
-            vertical-align: middle;  /* 垂直置中 */
+            text-align: center;      /* 表格內的核取方塊與文字全部置中 */
+            vertical-align: middle;  /* 垂直也居中 */
             border-bottom: 1px solid #eee;
         }
 
@@ -66,7 +74,7 @@
 
         /* 進度條樣式 */
         .progress-container {
-            width: 80px;             /* 稍微縮小一點點，更適合手機排版 */
+            width: 80px;             /* 適合手機的進度條寬度 */
             background-color: #e0e0e0;
             border-radius: 10px;
             overflow: hidden;
@@ -86,7 +94,7 @@
             font-size: 0.8rem;
             font-weight: bold;
             display: inline-block;
-            white-space: nowrap;     /* 防止狀態文字換行 */
+            white-space: nowrap;     /* 防止狀態文字被擠壓換行 */
         }
         .badge-locked { background: #ffeaa7; color: #d63031; }
         .badge-done { background: #55efc4; color: #00b894; }
@@ -96,14 +104,13 @@
             cursor: pointer;
         }
 
-        /* 針對平板與電腦的優化 */
+        /* 針對不同螢幕大小的自適應縮放 */
         @media (min-width: 600px) {
             .container {
-                padding: 30px;
-                margin: 40px 0;      /* 電腦版上下留多一點空間，比例更好看 */
+                padding: 30px;       /* 電腦版給予更寬敞的留白 */
             }
             .progress-container {
-                width: 100px;        /* 電腦版進度條可以寬一點 */
+                width: 100px;        /* 電腦版進度條稍微寬一點，比例更好看 */
             }
         }
     </style>
