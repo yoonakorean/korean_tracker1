@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 韓文初級 26 關卡挑戰表</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        /* 今日任務看板 */
+        .today-banner {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        th {
+            background-color: #f8f9fa;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        tr:hover {
+            background-color: #f9f9fb;
+        }
+        /* 進度條 */
+        .progress-container {
+            width: 100px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        .progress-bar {
+            height: 12px;
+            width: 0%;
+            background-color: #00b894;
+            transition: width 0.3s ease;
+        }
+        .badge {
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .badge-locked { background: #ffeaa7; color: #d63031; }
+        .badge-done { background: #55efc4; color: #00b894; }
+        
+        input[type="checkbox"] {
+            transform: scale(1.3);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🎯 韓文初級 26 關卡挑戰表</h1>
+    
+    <!-- 動態今日任務看板 -->
+    <div id="todayBanner" class="today-banner">
+        🚀 載入中，準備開始今天的學習冒險！
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>關卡</th>
+                <th>👀 看課</th>
+                <th>🗣️ 跟讀</th>
+                <th>🧠 題目</th>
+                <th>✍️ 輸出</th>
+                <th>🎙️ 錄音</th>
+                <th>關卡進度</th>
+                <th>狀態</th>
+            </tr>
+        </thead>
+        <tbody id="trackerTable">
+            <!-- 由 JavaScript 自動產生 26 個單元 -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    const totalUnits = 26;
+    const tasks = ['watch', 'shadow', 'quiz', 'output', 'record'];
+    
+    // 初始化表格
+    const tbody = document.getElementById('trackerTable');
+    for (let i = 1; i <= totalUnits; i++) {
+        let tr = document.createElement('tr');
+        tr.id = `row-${i}`;
+        
+        let html = `<td><strong>Unit ${i}</strong></td>`;
+        tasks.forEach(task => {
+            html += `<td><input type="checkbox" id="${task}-${i}" onchange="updateProgress(${i})"></td>`;
+        });
+        html += `
+            <td>
+                <div class="progress-container"><div id="bar-${i}" class="progress-bar"></div></div>
+                <span id="text-${i}">0%</span>
+            </td>
+            <td><span id="badge-${i}" class="badge badge-locked">⚔️ 挑戰中</span></td>
+        `;
+        tr.innerHTML = html;
+        tbody.appendChild(tr);
+    }
+
+    // 更新進度與儲存資料
+    function updateProgress(unitId) {
+        let checkedCount = 0;
+        tasks.forEach(task => {
+            if (document.getElementById(`${task}-${unitId}`).checked) {
+                checkedCount++;
+            }
+        });
+
+        // 計算百分比
+        const percent = (checkedCount / 5) * 100;
+        document.getElementById(`bar-${unitId}`).style.width = `${percent}%`;
+        document.getElementById(`text-${unitId}`).innerText = `${percent}%`;
+
+        // 更新狀態徽章
+        const badge = document.getElementById(`badge-${unitId}`);
+        if (percent === 100) {
+            badge.innerText = "🎉 已通關！";
+            badge.className = "badge badge-done";
+        } else {
+            badge.innerText = "⚔️ 挑戰中";
+            badge.className = "badge badge-locked";
+        }
+
+        // 儲存至本地瀏覽器
+        saveData();
+        // 更新最上方的今日提示
+        updateTodayBanner();
+    }
+
+    // 更新「今日任務」看板
+    function updateTodayBanner() {
+        let currentUnit = 1;
+        let isAllDone = true;
+
+        for (let i = 1; i <= totalUnits; i++) {
+            let checkedCount = 0;
+            tasks.forEach(task => {
+                if (document.getElementById(`${task}-${i}`).checked) checkedCount++;
+            });
+            
+            if (checkedCount < 5) {
+                currentUnit = i;
+                isAllDone = false;
+                break;
+            }
+        }
+
+        const banner = document.getElementById('todayBanner');
+        if (isAllDone) {
+            banner.innerHTML = "👑 🎉 恭喜你！消滅了所有怪獸，成功晉升【韓文初級大師】！ 🎉 👑";
+            banner.style.background = "linear-gradient(135deg, #f1c40f, #f39c12)";
+        } else {
+            banner.innerHTML = `🔥 今日目標：挑戰【 Unit ${currentUnit} 】！目前完成度已達 ${Math.round((document.querySelectorAll(`#row-${currentUnit} input:checked`).length/5)*100)}%，加油！`;
+            banner.style.background = "linear-gradient(135deg, #6c5ce7, #a29bfe)";
+        }
+    }
+
+    // 本地儲存功能
+    function saveData() {
+        let data = {};
+        for (let i = 1; i <= totalUnits; i++) {
+            data[i] = {};
+            tasks.forEach(task => {
+                data[i][task] = document.getElementById(`${task}-${i}`).checked;
+            });
+        }
+        localStorage.setItem('korean_tracker_data', JSON.stringify(data));
+    }
+
+    function loadData() {
+        let data = JSON.parse(localStorage.getItem('korean_tracker_data'));
+        if (data) {
+            for (let i = 1; i <= totalUnits; i++) {
+                if (data[i]) {
+                    tasks.forEach(task => {
+                        if (document.getElementById(`${task}-${i}`)) {
+                            document.getElementById(`${task}-${i}`).checked = data[i][task] || false;
+                        }
+                    });
+                    updateProgress(i);
+                }
+            }
+        }
+        updateTodayBanner();
+    }
+
+    // 網頁開啟時載入進度
+    window.onload = loadData;
+</script>
+
+</body>
+</html>
