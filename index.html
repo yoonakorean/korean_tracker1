@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎯 韓文初級26週 關卡挑戰表</title>
+    <title>🎯 韓文初級 26週關卡挑戰表</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -16,7 +16,7 @@
             max-width: 900px;
             margin: 0 auto;
             background: white;
-            padding: 30px;
+            padding: 20px; /* 手機上縮小 padding */
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
@@ -24,72 +24,45 @@
             text-align: center;
             color: #2c3e50;
             margin-bottom: 10px;
+            
+            /* -- 重點修改開始 -- */
+            /* 基礎縮小一點點，設定為大約 1.8倍的預設字體大小 */
+            font-size: 1.8rem;
+            
+            /* 如果你還是覺得太大，可以用這一行（在小螢幕上使用 1.4rem，在普通螢幕上使用 1.8rem）*/
+            /* 如果要用這個，要把上面的那行 font-size: 1.8rem 註解掉或是刪掉 */
+            /* font-size: 1.4rem; */
+            
+            /* 強制讓文字在很小的螢幕上縮放 */
+            font-size: clamp(1.4rem, 5vw + 1rem, 1.8rem);
+            /* 這行公式的意思是：
+               1.4rem：字體最小絕對不會小於 1.4rem (適合超級老小手機)
+               5vw + 1rem：根據手機寬度 (5% 的視窗寬度 + 1rem) 自動縮放
+               1.8rem：字體最大不會大於 1.8rem (在大手機或電腦上) */
+
+            /* 防止文字換行 */
+            white-space: nowrap;
+            /* 重點修改結束 -- */
         }
-        /* 今日任務看板 */
-        .today-banner {
-            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        th, td {
-            padding: 12px;
-            text-align: center;
-            border-bottom: 1px solid #eee;
-        }
-        th {
-            background-color: #f8f9fa;
-            color: #2c3e50;
-            font-weight: 600;
-        }
-        tr:hover {
-            background-color: #f9f9fb;
-        }
-        /* 進度條 */
-        .progress-container {
-            width: 100px;
-            background-color: #e0e0e0;
-            border-radius: 10px;
-            overflow: hidden;
-            display: inline-block;
-            vertical-align: middle;
-            margin-right: 8px;
-        }
-        .progress-bar {
-            height: 12px;
-            width: 0%;
-            background-color: #00b894;
-            transition: width 0.3s ease;
-        }
-        .badge {
-            padding: 4px 8px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-        .badge-locked { background: #ffeaa7; color: #d63031; }
-        .badge-done { background: #55efc4; color: #00b894; }
-        
-        input[type="checkbox"] {
-            transform: scale(1.3);
-            cursor: pointer;
+
+        /* 為了配合手機版，建議你也同步加入以下 media query，優化 container */
+        @media (min-width: 600px) {
+            .container {
+                padding: 30px;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>🎯 韓文初級 26 週關卡挑戰表</h1>
+    <h1>🎯 韓文初級 26週關卡挑戰表</h1>
+    
+    <!-- 後面原本的內容不需要更改 -->
+</div>
+
+</body>
+</html>
     
     <!-- 動態今日任務看板 -->
     <div id="todayBanner" class="today-banner">
